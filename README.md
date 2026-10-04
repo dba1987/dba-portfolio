@@ -1,6 +1,6 @@
 # 박건태 | Database Administrator
 
-Oracle와 Exadata를 중심으로 약 10년간 DB 운영, 구축과 전환 업무를 해왔습니다. 현재 AXA손해보험의 DB 파트 리드로 Oracle 약 25대, AWS RDS PostgreSQL 약 30대, MSSQL 17대의 운영과 변경 관리를 담당하고 있습니다.
+Oracle과 Exadata를 중심으로 약 10년간 DB 운영, 구축과 전환 업무를 해왔습니다. 현재 AXA손해보험의 DB 파트 리드로 Oracle 약 25대, AWS RDS PostgreSQL 약 30대, MSSQL 17대의 운영과 변경 관리를 담당하고 있습니다.
 
 DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니다. 이관이나 업그레이드도 DB 기동에서 끝내지 않고, 데이터 정합성·연계 서비스·백업과 모니터링이 정상 동작하는지까지 확인해 왔습니다.
 
