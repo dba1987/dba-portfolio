@@ -9,7 +9,7 @@
 | 수행사 | SK AX |
 | 원장 운영 | Oracle Exadata Cloud@Customer의 GALAXY 원장 유지 |
 | 전환 범위 | GALAXY의 A&H·일반·보상 관련 스키마 분리 및 RDS PostgreSQL 전환 |
-| 인수인계 검토 범위 | 운영 7개·공통 4개 PostgreSQL DB |
+| 운영 규모 | AWS RDS PostgreSQL 약 30대 |
 
 차세대 1차에서는 Oracle Exadata Cloud@Customer의 GALAXY 원장을 유지하면서 A&H·일반·보상 관련 스키마를 분리해 AWS RDS PostgreSQL로 전환했다.
 
@@ -73,6 +73,6 @@ WAL Sender의 Timeout 동작과 CDC 연결 상태를 분석하고 수행사·벤
 
 ## 현재 RDS PostgreSQL 운영 범위
 
-프로젝트 인수인계 검토 대상은 운영 7개·공통 4개 DB였으며, 현재 담당하는 AXA의 전체 RDS PostgreSQL 운영 환경은 약 30대다. 계정·권한, 오브젝트 변경, 성능 모니터링과 운영 변경을 수행하고 있다. pg_stat_activity, Vacuum/Analyze 상태, Replication Slot, Extension과 SSL 등 운영 조회 항목을 확인한다.
+AXA의 AWS RDS PostgreSQL 약 30대에서 계정·권한, 오브젝트 변경, 성능 모니터링과 운영 변경을 수행하고 있다. pg_stat_activity, Vacuum/Analyze 상태, Replication Slot, Extension과 SSL 등 운영 조회 항목을 확인한다.
 
 [전체 목록으로 돌아가기](README.md)
