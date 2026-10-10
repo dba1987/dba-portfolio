@@ -1,4 +1,4 @@
-# A&H·일반·보상 업무의 Oracle→AWS RDS PostgreSQL 전환 — 차세대 1차
+# Oracle → AWS RDS PostgreSQL 전환
 
 [전체 목록으로 돌아가기](README.md)
 
