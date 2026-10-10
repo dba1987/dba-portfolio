@@ -1,4 +1,4 @@
-# Oracle→AWS RDS PostgreSQL 차세대 1차 전환
+# A&H·일반·보상 업무의 Oracle→AWS RDS PostgreSQL 전환 — 차세대 1차
 
 [전체 목록으로 돌아가기](README.md)
 
@@ -7,8 +7,11 @@
 | 기간 | 2023.07 ~ 2025.07 |
 | 역할 | 고객사 DBA |
 | 수행사 | SK AX |
+| 원장 운영 | Oracle Exadata Cloud@Customer의 GALAXY 원장 유지 |
+| 전환 범위 | GALAXY의 A&H·일반·보상 관련 스키마 분리 및 RDS PostgreSQL 전환 |
 | 인수인계 검토 범위 | 운영 7개·공통 4개 PostgreSQL DB |
-| 현재 운영 규모 | RDS PostgreSQL 약 30대 |
+
+차세대 1차에서는 Oracle Exadata Cloud@Customer의 GALAXY 원장을 유지하면서 A&H·일반·보상 관련 스키마를 분리해 AWS RDS PostgreSQL로 전환했다.
 
 기존 Oracle에서 적용하던 솔루션 사용 정책, 개인정보 마스킹, 접근제어, 계정관리와 백업 기준을 신규 환경에 반영하도록 요구사항을 제시했다. 수행사 DBA의 구성·작업안을 검토하고 필요한 보완을 요청했으며 적용 여부를 확인했다.
 
@@ -64,8 +67,8 @@ WAL Sender의 Timeout 동작과 CDC 연결 상태를 분석하고 수행사·벤
 
 구성, 계정·권한, CDC, 정기 점검과 정책 변경을 운영 인수인계에 반영했다. 수행사 작업의 결과와 기준 충족 여부를 확인한 뒤 DB 영역의 전환 완료를 판단했다.
 
-## 현재 운영
+## 현재 RDS PostgreSQL 운영 범위
 
-약 30대 RDS PostgreSQL의 계정·권한, 오브젝트 변경, 성능 모니터링과 운영 변경을 수행하고 있다. pg_stat_activity, Vacuum/Analyze 상태, Replication Slot, Extension과 SSL 등 운영 조회 항목을 확인한다.
+프로젝트 인수인계 검토 대상은 운영 7개·공통 4개 DB였으며, 현재 담당하는 AXA의 전체 RDS PostgreSQL 운영 환경은 약 30대다. 계정·권한, 오브젝트 변경, 성능 모니터링과 운영 변경을 수행하고 있다. pg_stat_activity, Vacuum/Analyze 상태, Replication Slot, Extension과 SSL 등 운영 조회 항목을 확인한다.
 
 [전체 목록으로 돌아가기](README.md)
