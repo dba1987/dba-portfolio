@@ -22,7 +22,7 @@ Oracle 25개 DB 전체의 전환과 안정화를 담당했다. 이관 방식과 
 
 DBLink, Datafile Copy, RMAN Duplicate/Active Duplicate, Hot Backup Clone, RMAN Backup Clone을 테스트했다. 개발계에는 DBLink 기반 이관을 활용할 수 있었지만, 본이행 대상 운영 DB는 데이터 규모와 반복 작업의 안정성을 고려해 RMAN Backup Clone으로 표준화했다.
 
-전체 전환 대상은 25개 DB였고, 이 중 본이행 대상 운영 8개 DB에 같은 표준 절차를 적용했다.
+전체 전환 대상은 25개 DB였고, 이 중 본이행 대상 운영(PRODEXA,CONDEXA) 8개 DB에 같은 표준 절차를 적용했다.
 
 1. 기존 운영 DB의 Full Backup 확보
 2. RMAN Backup Clone으로 대상 Non-CDB 선행 구성
