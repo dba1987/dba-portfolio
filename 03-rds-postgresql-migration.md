@@ -1,4 +1,4 @@
-# Oracle → AWS RDS PostgreSQL 전환
+# 차세대1차 : Oracle → AWS RDS PostgreSQL 전환
 
 [전체 목록으로 돌아가기](README.md)
 
@@ -12,6 +12,10 @@
 | 인수인계 검토 범위 | 운영 7개·공통 4개 PostgreSQL DB |
 
 차세대 1차에서는 Oracle Exadata Cloud@Customer의 GALAXY 원장을 유지하면서 A&H·일반·보상 관련 스키마를 분리해 AWS RDS PostgreSQL로 전환했다.
+
+RDS PostgreSQL의 Target 구성, DB Parameter Group 설정, 데이터베이스 인코딩(캐릭터셋) 선정과 초기 데이터 이관 방식을 검토했다. Oracle과 PostgreSQL의 데이터 타입, 숫자 정밀도·스케일, 문자 길이, 날짜·시간 표현, 기본값·NULL 처리와 PK·Unique Index의 차이를 확인하고 DDL 변환 기준을 검토했다.
+
+초기 적재 이후의 OGG CDC 연계와 변경분 동기화, Source/Target 데이터 정합성 검증과 절체 절차를 함께 확인했다. 이를 바탕으로 수행사의 구성·이관안이 업무 데이터와 운영 조건에 맞는지 판단했다.
 
 기존 Oracle에서 적용하던 솔루션 사용 정책, 개인정보 마스킹, 접근제어, 계정관리와 백업 기준을 신규 환경에 반영하도록 요구사항을 제시했다. 수행사 DBA의 구성·작업안을 검토하고 필요한 보완을 요청했으며 적용 여부를 확인했다.
 
