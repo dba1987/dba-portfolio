@@ -23,7 +23,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 | [차세대1차 : Oracle → AWS RDS PostgreSQL 전환](03-rds-postgresql-migration.md) | 고객사 DBA | Oracle 원장 유지와 업무 스키마 분리, 파라미터·인코딩·이관 방식과 DDL 검토, 계정·권한 기준, CDC 연결 안정화 검증 |
 | [DBLink 지연 분석 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 원인 분석·조치 제안·후속 대응 | 약 950초 지연 재현, Health Check 검증, 함수 변경의 한계, 로그 보존과 Bounded Recovery |
 | [AnyLink Tibero→Oracle 전환](05-tibero-oracle-migration.md) | 대상 DB 구성·이관·오류 대응 | AI 코딩 지원을 활용한 작업 제어, CSV·LOB 처리, Gateway, 개발 검증과 운영 이관 완료 |
-| [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 성능 분석·튜닝 | 업무 성격과 실제 처리량 판단, 실행계획 검토, 약 1.06억 건 테이블 반복 조회 구조 개선 |
+| [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 성능 분석·튜닝 | 업무 성격과 실제 처리량 판단, 실행계획 검토, 대용량 테이블의 반복 조회·집계 구조 개선 |
 | [반복 작업 자동화 및 클라우드 운영](07-automation-cloud-operations.md) | 운영 작업 구성·수행 | PostgreSQL 약 800개 테이블의 배치 이관, Terraform 설정 변경, MSSQL RDS 이관 |
 | [DB 암호화·접근통제·감사 대응](08-security-audit.md) | 고객사 DBA / 현재 DB 파트 리드 | TDE 수행사 작업 검토, 계정관리 개선, 감사 대응, 통합 솔루션 PoC와 추진 범위 |
 | [전사 개인정보 컬럼 암호화와 데이터 전환](10-column-encryption.md) | 고객사 DBA / DB 파트 리드 | 전체 대상 합산 약 500억 건, 클론 구성과 Wallet 작업, 암복호화 함수·권한·감사 설정, OGG 정상 반영·복호화·DML 검증 |
