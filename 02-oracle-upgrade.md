@@ -4,7 +4,7 @@
 
 | 항목 | 내용 |
 | --- | --- |
-| 기간 | 2022.08 |
+| 기간 | 2022.03-2022.08 |
 | 역할 | DBA 실무 리딩 / 공식 PM 별도 |
 | 대상 | 운영·정보계·DR·개발/테스트 DB, Exadata Grid Infrastructure, GoldenGate 연계 |
 
