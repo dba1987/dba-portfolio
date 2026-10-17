@@ -6,7 +6,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 
 ## 주요 경험
 
-- **ExaCC 전환 PM / Main DBA**: 기간계·정보계·DR·개발을 포함한 Oracle 25개 DB 전체의 전환과 안정화. 이관 방식 선정, 성능·가용성·복구 검증, 절체와 원복 절차 관리.
+- **ExaCC 전환 PM / Main DBA**: Oracle 25개 DB 전체의 전환과 안정화. NetBackup 기반 19TB 사전 복구 테스트와 OGG 변경분 동기화, 전체 본이행의 담당자별 작업시간·선후행 관계 조율 및 완료 보고 기반 진행 관리.
 - **Oracle 12.2→19c 업그레이드 실무 리딩**: 운영 백업으로 테스트 환경을 구성하고 AutoUpgrade 오류와 패치 충돌을 사전 확인. DR 선행 검증 후 운영 전환과 연계 시스템 정상화.
 - **Oracle 업무 스키마 분리·RDS PostgreSQL 전환 고객사 DBA**: Oracle ExaCC의 GALAXY 원장을 유지하며 A&H·일반·보상 관련 스키마를 분리·전환. 운영·보안 기준 제시, 수행사 기술안 검토와 이행 관리, DB 영역 전환 완료 판단. PostgreSQL→Oracle Reverse CDC PoC 직접 참여.
 - **DBLink 장애 대응과 이관 자동화**: 약 950초 지연 조건을 재현하고 Health Check 적용 후 운영 재발 없음 확인. 후속 OGG 문제는 로그 보존과 BR 적용을 거쳐 Extract 재기동·동기화 재개까지 검증. Tibero→Oracle 이관과 Python·Shell 기반 반복 작업 구성.
@@ -18,7 +18,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 
 | 프로젝트 | 맡은 역할 | 확인할 내용 |
 | --- | --- | --- |
-| [Exadata Cloud@Customer X10M 전환](01-exacc-migration.md) | PM / Main DBA | 이관 방식 선정, CDB/PDB와 파라미터 검토, 복구 검증, Reverse OGG 원복, AS-IS / TO-BE 구성도 |
+| [Exadata Cloud@Customer X10M 전환](01-exacc-migration.md) | PM / Main DBA | 19TB 사전 복구, 전체 본이행 일정·완료 보고 관리, Petra 쿼리 미수집 대응, CDB/PDB와 복구·원복 검증, AS-IS / TO-BE 구성도 |
 | [Oracle 12.2→19c 업그레이드](02-oracle-upgrade.md) | DBA 실무 리딩 | 운영 백업 기반 테스트, AutoUpgrade 오류 대응, GI/DB 패치 검토, 단계별 원복 |
 | [차세대1차 : Oracle → AWS RDS PostgreSQL 전환](03-rds-postgresql-migration.md) | 고객사 DBA | Oracle 원장 유지와 업무 스키마 분리, 파라미터·인코딩·이관 방식과 DDL 검토, 계정·권한 기준, CDC 연결 안정화 검증 |
 | [DBLink 지연 장애 재현 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 재현 테스트 협의·함수 직접 작성·후속 대응 | 초기 판단 수정, 운영 지연 재발 방지, 함수 적용의 한계, 로그 보존과 BR 적용 후 Extract 재기동·동기화 재개 확인 |
