@@ -9,7 +9,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 - **ExaCC 전환 PM / Main DBA**: 기간계·정보계·DR·개발을 포함한 Oracle 25개 DB 전체의 전환과 안정화. 이관 방식 선정, 성능·가용성·복구 검증, 절체와 원복 절차 관리.
 - **Oracle 12.2→19c 업그레이드 실무 리딩**: 운영 백업으로 테스트 환경을 구성하고 AutoUpgrade 오류와 패치 충돌을 사전 확인. DR 선행 검증 후 운영 전환과 연계 시스템 정상화.
 - **Oracle 업무 스키마 분리·RDS PostgreSQL 전환 고객사 DBA**: Oracle ExaCC의 GALAXY 원장을 유지하며 A&H·일반·보상 관련 스키마를 분리·전환. 운영·보안 기준 제시, 수행사 기술안 검토와 이행 관리, DB 영역 전환 완료 판단. PostgreSQL→Oracle Reverse CDC PoC 직접 참여.
-- **장애 분석과 이관 자동화**: DBLink 지연 조건 재현, 후속 OGG 복구 위험 관리, Tibero→Oracle 이관과 Python·Shell 기반 반복 작업 구성.
+- **DBLink 장애 대응과 이관 자동화**: 약 950초 지연 조건을 재현하고 Health Check 적용 후 운영 재발 없음 확인. 후속 OGG 문제는 로그 보존과 BR 적용을 거쳐 Extract 재기동·동기화 재개까지 검증. Tibero→Oracle 이관과 Python·Shell 기반 반복 작업 구성.
 - **DB 보안 및 감사 대응**: 계정·권한 분리, DB 접근제어 운영, TDE 적용 환경의 전환 작업 검토, 금융감독원·외부회계법인·AXA 프랑스 그룹 감사 대응.
 
 - **전사 개인정보 컬럼 암호화(진행 중)**: 2026.03부터 고객사 DBA·DB 파트 리드로 참여. 전체 대상 합산 약 500억 건의 대상 조사, 클론 DB 구성과 보안 설정, 암호화 데이터의 OGG CDC 검증 직접 수행.
@@ -21,7 +21,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 | [Exadata Cloud@Customer X10M 전환](01-exacc-migration.md) | PM / Main DBA | 이관 방식 선정, CDB/PDB와 파라미터 검토, 복구 검증, Reverse OGG 원복, AS-IS / TO-BE 구성도 |
 | [Oracle 12.2→19c 업그레이드](02-oracle-upgrade.md) | DBA 실무 리딩 | 운영 백업 기반 테스트, AutoUpgrade 오류 대응, GI/DB 패치 검토, 단계별 원복 |
 | [차세대1차 : Oracle → AWS RDS PostgreSQL 전환](03-rds-postgresql-migration.md) | 고객사 DBA | Oracle 원장 유지와 업무 스키마 분리, 파라미터·인코딩·이관 방식과 DDL 검토, 계정·권한 기준, CDC 연결 안정화 검증 |
-| [DBLink 지연 분석 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 원인 분석·조치 제안·후속 대응 | 약 950초 지연 재현, Health Check 검증, 함수 변경의 한계, 로그 보존과 Bounded Recovery |
+| [DBLink 지연 장애 재현 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 재현 테스트 협의·함수 직접 작성·후속 대응 | 초기 판단 수정, 운영 지연 재발 방지, 함수 적용의 한계, 로그 보존과 BR 적용 후 Extract 재기동·동기화 재개 확인 |
 | [AnyLink Tibero→Oracle 전환](05-tibero-oracle-migration.md) | 대상 DB 구성·이관·오류 대응 | AI 코딩 지원을 활용한 작업 제어, CSV·LOB 처리, Gateway, 개발 검증과 운영 이관 완료 |
 | [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 성능 분석·튜닝 | 업무 성격과 실제 처리량 판단, 실행계획 검토, 대용량 테이블의 반복 조회·집계 구조 개선 |
 | [반복 작업 자동화 및 클라우드 운영](07-automation-cloud-operations.md) | 운영 작업 구성·수행 | PostgreSQL 약 800개 테이블의 배치 이관, Terraform 설정 변경, MSSQL RDS 이관 |
