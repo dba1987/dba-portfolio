@@ -19,7 +19,7 @@ RDS PostgreSQL의 Target 구성, DB Parameter Group 설정, 데이터베이스 �
 
 기존 Oracle에서 적용하던 솔루션 사용 정책, 개인정보 마스킹, 접근제어, 계정관리와 백업 기준을 신규 환경에 반영하도록 요구사항을 제시했다. 수행사 DBA의 구성·작업안을 검토하고 필요한 보완을 요청했으며 적용 여부를 확인했다.
 
-실제 절체는 수행사 DBA가 수행했다. 나는 DB 영역의 전환 완료 여부를 판단하고 운영 인수인계로 연결했다. PostgreSQL→Oracle 정보계 Reverse CDC PoC에는 직접 참여했다.
+실제 절체는 수행사 DBA가 수행했다. 나는 DB 영역의 전환 완료 여부를 판단하고 운영 인수인계로 연결했다. PostgreSQL→Oracle 정보계 Reverse CDC PoC는 프로젝트 DBA와 공동 수행했다. Oracle SR을 직접 진행하고 설정 변경을 제안·검증했으며, 당시 확인한 장애 대응 제약을 내부에 보고했다.
 
 ## 1. 고객사와 수행사의 역할
 
@@ -29,7 +29,7 @@ RDS PostgreSQL의 Target 구성, DB Parameter Group 설정, 데이터베이스 �
 | 상세 구성·작업안·산출물 | 수행사 DBA가 작성·제시, 나는 검토와 보완 요구 |
 | 작업 적용 | 수행사 실행과 이행 관리·감독 |
 | DB 전환 완료 | 고객사 DBA로 결과 판단 |
-| Reverse CDC PoC | 직접 참여하고 수행사·벤더와 조치 효과 검증 |
+| Reverse CDC PoC | 프로젝트 DBA와 공동 검증, Oracle SR 진행, 설정 변경 제안 및 운영상 위험 보고 |
 
 ## 2. 계정·권한과 운영 기준
 
@@ -45,25 +45,33 @@ Oracle→PostgreSQL CDC 대상 101개 테이블의 데이터 타입, Default, NU
 
 CDC는 OGG Mapping, DDL 변경 순서, 프로세스 상태, Lag와 처리건수, Replication Slot을 함께 확인하도록 운영 기준을 정리했다. 신규 테이블이나 컬럼 변경에서는 Source/Target DDL과 Mapping·Trandata 변경, GAP 확인, 프로세스 재기동을 하나의 변경 절차로 관리하도록 했다.
 
-## 4. Reverse CDC PoC의 연결 종료 문제
+## 4. Reverse CDC PoC와 장애 대응 제약
 
-### 문제
+### 공동 PoC에서 확인한 문제
 
-PostgreSQL→Oracle 정보계 방향으로 대량 데이터를 동기화할 때 WAL Sender 연결 종료, OGG 재접속과 Extract 중지가 발생했다. 장애 과정에서 WAL이 누적되고 Storage가 증가하는 현상도 관찰했다.
+프로젝트 DBA와 PostgreSQL→Oracle 정보계 Reverse CDC PoC를 함께 진행했다. 대량 데이터 처리 중 WAL Sender 연결 종료, OGG 재접속과 Extract ABEND가 발생했고, WAL 누적과 Storage 증가도 관찰했다.
 
-로그에는 연결 종료·복구 경고와 Positioning sequence ID is out of order 오류가 차례로 기록됐다. 연결이 다시 맺어지는 것과 Extract가 계속 정상 동작하는 것은 구분해 확인했다.
+PostgreSQL 로그에는 replication timeout으로 WAL Sender를 종료한 기록이 남아 있었다. OGG 로그에서는 연결 종료·재접속에 이어 Positioning sequence ID is out of order 오류를 확인했다.
 
-### 판단과 검증
+프로젝트 DBA는 Extract 재기동 후 Lag이 없는 상태에서도 데이터를 비교했다. 동일 조건의 조회 건수가 PostgreSQL 17,465건, Oracle 612,083건으로 달랐다. 이 값은 테이블 전체 건수가 아닌 특정 조건의 조회 결과다. 프로세스가 실행 중인지와 데이터가 일치하는지를 별도로 확인해야 하는 상황이었다.
 
-WAL Sender의 Timeout 동작과 CDC 연결 상태를 분석하고 수행사·벤더의 조치 의견을 검토했다. 당시 환경에서 변경할 수 있었던 OGG 전용 계정의 wal_sender_timeout=0을 대량 동기화 테스트에 적용해 효과를 공동 검증했다.
+### Oracle SR과 설정 변경 검증
 
-확인 항목은 연결 종료 경고, Extract 중지 재발, 프로세스 재기동과 Source/Target 데이터 정합성이었다.
+나는 Oracle SR을 직접 진행하고 오류와 데이터 불일치에 대한 기술지원 회신을 확인했다. 당시 Oracle은 보고된 제품 결함이나 유사 사례가 없으며, 연결 종료·Invalid socket 등의 오류가 확인된다고 설명했다. `wal_sender_timeout=0`은 유효한 Workaround로 안내받았다.
 
-### 결과와 남은 확인 범위
+이를 근거로 파라미터 변경을 제안했다. OGG 전용 계정의 `wal_sender_timeout=0` 설정을 대량 동기화 테스트에 적용하고 프로젝트 DBA·벤더와 공동 검증했다. 적용 후 PoC에서 연결 종료 관련 경고와 Extract ABEND가 재발하지 않는 것을 확인했다.
 
-2025년 4월 후속 테스트와 결과 보고에서 해당 설정 적용 후 연결 종료 경고와 Extract 중지가 발생하지 않고 정상 동작하는 것을 확인했다.
+설정 적용 후 발생한 `OGG-25546`은 Timeout 비활성화를 알리는 정상(expected) 메시지라는 Oracle 답변도 확인했다. 이를 연결 종료 관련 오류와 구분해 결과를 판단했다.
 
-이전 재기동 이후의 동기화 누락 보고는 별도 원인 확인과 Oracle SR 대응으로 관리했다. 후속 테스트에서 누락이 재현되지 않았다는 사실과 원인이 규명됐다는 결론은 구분했다.
+### Failover 대응 제약과 운영상 판단
+
+SR 과정에서 당시 PostgreSQL Capture의 Failover 대응 제약을 추가로 확인했다. 대량 트랜잭션 처리 중 비계획 Failover가 발생하면 일부 변경분의 추출이 정상적으로 이어지지 않을 수 있다는 기술지원 안내였다.
+
+업체는 사전에 프로세스를 정상 종료한 뒤 전환하는 절차를 안내했다. 나는 이 방법을 예고 없이 발생하는 장애에 적용하기는 어렵다고 판단했다. 장애 시 데이터 정합성 검증과 재적재가 필요할 수 있다는 점, Long Transaction을 줄이는 운영 관리가 필요하다는 의견을 내부에 보고했다.
+
+### 수행 결과
+
+공동 PoC에서 연결 안정화 방안을 검증했다. SR에서 확인한 당시의 Failover 대응 제약과 운영상 위험은 내부에 보고했다.
 
 ## 5. 백업·가용성·보안과 전환 완료 판단
 
