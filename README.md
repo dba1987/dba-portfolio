@@ -9,7 +9,8 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 - **ExaCC 전환 PM / Main DBA**: Oracle 25개 DB 전체의 전환과 안정화. NetBackup 기반 19TB 사전 복구 테스트와 OGG 변경분 동기화, 전체 본이행의 담당자별 작업시간·선후행 관계 조율 및 완료 보고 기반 진행 관리.
 - **Oracle 12.2→19c 업그레이드 실무 리딩**: 운영 백업 기반 테스트 DB 구성·일부 DB 테스트 업그레이드·OS 백업·Oracle SR 대응 직접 수행. 수행사와 본 작업 및 검증을 조율해 00:30~09:00의 예정된 중단 시간 내 정상 오픈.
 - **Oracle 업무 스키마 분리·RDS PostgreSQL 전환 고객사 DBA**: Oracle 원장을 유지하며 A&H·일반·보상 관련 스키마 분리·전환. 기술·운영 기준 검토와 DB 전환 완료 판단. 프로젝트 DBA와 Reverse CDC 공동 PoC, Oracle SR 및 Timeout 설정 변경 검증, Failover 대응 제약과 운영상 위험 보고.
-- **DBLink 장애 대응과 이관 자동화**: 약 950초 지연 조건을 재현하고 Health Check 적용 후 운영 재발 없음 확인. 후속 OGG 문제는 로그 보존과 BR 적용을 거쳐 Extract 재기동·동기화 재개까지 검증. Tibero→Oracle 이관과 Python·Shell 기반 반복 작업 구성.
+- **DBLink 장애 대응과 OGG 복구 안정화**: 약 950초 지연 조건을 재현하고 Health Check 적용 후 운영 재발 없음 확인. 후속 OGG 문제는 로그 보존과 BR 적용을 거쳐 Extract 재기동·동기화 재개까지 검증.
+- **AnyLink Tibero→Oracle 전환 직접 수행**: 일반 데이터는 Python, LOB는 Gateway DBLink로 이관. LOB 적재 테스트 결과와 자동화 보완 공수를 근거로 방식을 결정하고, 네트워크 대역폭 확장 협의와 업무담당자 확인을 거쳐 전환 완료.
 - **DB 보안 및 감사 대응**: 계정·권한 분리, DB 접근제어 운영, TDE 적용 환경의 전환 작업 검토, 금융감독원·외부회계법인·AXA 프랑스 그룹 감사 대응.
 
 - **전사 개인정보 컬럼 암호화(진행 중)**: 2026.03부터 고객사 DBA·DB 파트 리드로 참여. 전체 대상 합산 약 500억 건의 대상 조사, 클론 DB 구성과 보안 설정, 암호화 데이터의 OGG CDC 검증 직접 수행.
@@ -22,7 +23,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 | [Oracle 12.2→19c 업그레이드](02-oracle-upgrade.md) | 테스트 DB 구성·일부 테스트 직접 수행 / DBA 실무 리딩 | 복구 대상 판단, Timezone·메모리 부족 대응과 SR, OS 백업, 00:30~09:00 내 정상 오픈 |
 | [차세대1차 : Oracle → AWS RDS PostgreSQL 전환](03-rds-postgresql-migration.md) | 고객사 DBA / Reverse CDC 공동 PoC | 업무 스키마 분리와 운영 기준, Oracle SR·Timeout 설정 검증, 프로세스 재기동 후 데이터 불일치 확인과 Failover 대응 제약 판단 |
 | [DBLink 지연 장애 재현 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 재현 테스트 협의·함수 직접 작성·후속 대응 | 초기 판단 수정, 운영 지연 재발 방지, 함수 적용의 한계, 로그 보존과 BR 적용 후 Extract 재기동·동기화 재개 확인 |
-| [AnyLink Tibero→Oracle 전환](05-tibero-oracle-migration.md) | 대상 DB 구성·이관·오류 대응 | AI 코딩 지원을 활용한 작업 제어, CSV·LOB 처리, Gateway, 개발 검증과 운영 이관 완료 |
+| [AnyLink Tibero→Oracle 전환](05-tibero-oracle-migration.md) | 대상 DB 구성·이관·오류 대응 | Python 일반 데이터 이관, LOB 적재 공수에 따른 DBLink 선택, 네트워크 대역폭 확장 협의와 업무 확인 |
 | [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 성능 분석·튜닝 | 업무 성격과 실제 처리량 판단, 실행계획 검토, 대용량 테이블의 반복 조회·집계 구조 개선 |
 | [반복 작업 자동화 및 클라우드 운영](07-automation-cloud-operations.md) | 운영 작업 구성·수행 | PostgreSQL 약 800개 테이블의 배치 이관, Terraform 설정 변경, MSSQL RDS 이관 |
 | [DB 암호화·접근통제·감사 대응](08-security-audit.md) | 고객사 DBA / 현재 DB 파트 리드 | TDE 수행사 작업 검토, 계정관리 개선, 감사 대응, 통합 솔루션 PoC와 추진 범위 |
