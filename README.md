@@ -11,6 +11,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 - **Oracle 업무 스키마 분리·RDS PostgreSQL 전환 고객사 DBA**: Oracle 원장을 유지하며 A&H·일반·보상 관련 스키마 분리·전환. 기술·운영 기준 검토와 DB 전환 완료 판단. 프로젝트 DBA와 Reverse CDC 공동 PoC, Oracle SR 및 Timeout 설정 변경 검증, Failover 대응 제약과 운영상 위험 보고.
 - **DBLink 장애 대응과 OGG 복구 안정화**: 약 950초 지연 조건을 재현하고 Health Check 적용 후 운영 재발 없음 확인. 후속 OGG 문제는 로그 보존과 BR 적용을 거쳐 Extract 재기동·동기화 재개까지 검증.
 - **AnyLink Tibero→Oracle 전환 직접 수행**: 일반 데이터는 Python, LOB는 Gateway DBLink로 이관. LOB 적재 테스트 결과와 자동화 보완 공수를 근거로 방식을 결정하고, 네트워크 대역폭 확장 협의와 업무담당자 확인을 거쳐 전환 완료.
+- **TM 리워드 이력조회 SQL 튜닝 직접 수행**: SQL 수정, 복합 인덱스 구성과 유무 비교 테스트, 검토 의견 전달 후 운영 반영 완료. 테스트 전체 SQL 수행시간 5.87초→0.38초, Buffer Gets 약 91.3만→399.
 - **DB 보안 및 감사 대응**: 계정·권한 분리, DB 접근제어 운영, TDE 적용 환경의 전환 작업 검토, 금융감독원·외부회계법인·AXA 프랑스 그룹 감사 대응.
 
 - **전사 개인정보 컬럼 암호화(진행 중)**: 2026.03부터 고객사 DBA·DB 파트 리드로 참여. 전체 대상 합산 약 500억 건의 대상 조사, 클론 DB 구성과 보안 설정, 암호화 데이터의 OGG CDC 검증 직접 수행.
@@ -24,7 +25,7 @@ DB 변경 작업에서는 업무 영향과 복구 방법을 먼저 확인합니�
 | [차세대1차 : Oracle → AWS RDS PostgreSQL 전환](03-rds-postgresql-migration.md) | 고객사 DBA / Reverse CDC 공동 PoC | 업무 스키마 분리와 운영 기준, Oracle SR·Timeout 설정 검증, 프로세스 재기동 후 데이터 불일치 확인과 Failover 대응 제약 판단 |
 | [DBLink 지연 장애 재현 및 OGG 복구 안정화](04-dblink-ogg-recovery.md) | 재현 테스트 협의·함수 직접 작성·후속 대응 | 초기 판단 수정, 운영 지연 재발 방지, 함수 적용의 한계, 로그 보존과 BR 적용 후 Extract 재기동·동기화 재개 확인 |
 | [AnyLink Tibero→Oracle 전환](05-tibero-oracle-migration.md) | 대상 DB 구성·이관·오류 대응 | Python 일반 데이터 이관, LOB 적재 공수에 따른 DBLink 선택, 네트워크 대역폭 확장 협의와 업무 확인 |
-| [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 성능 분석·튜닝 | 업무 성격과 실제 처리량 판단, 실행계획 검토, 대용량 테이블의 반복 조회·집계 구조 개선 |
+| [SQL 튜닝 접근과 수행 경험](06-sql-tuning.md) | SQL 수정·인덱스 비교 테스트·검토 의견 전달 | 리워드 조회 SQL 운영 반영, 테스트 수행시간 5.87초→0.38초, Buffer Gets 약 91.3만→399, 다른 업무 테이블의 인덱스 유무 비교 |
 | [반복 작업 자동화 및 클라우드 운영](07-automation-cloud-operations.md) | 운영 작업 구성·수행 | PostgreSQL 약 800개 테이블의 배치 이관, Terraform 설정 변경, MSSQL RDS 이관 |
 | [DB 암호화·접근통제·감사 대응](08-security-audit.md) | 고객사 DBA / 현재 DB 파트 리드 | TDE 수행사 작업 검토, 계정관리 개선, 감사 대응, 통합 솔루션 PoC와 추진 범위 |
 | [전사 개인정보 컬럼 암호화와 데이터 전환](10-column-encryption.md) | 고객사 DBA / DB 파트 리드 | 전체 대상 합산 약 500억 건, 클론 구성과 Wallet 작업, 암복호화 함수·권한·감사 설정, OGG 정상 반영·복호화·DML 검증 |
